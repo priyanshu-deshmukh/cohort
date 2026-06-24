@@ -5,7 +5,7 @@ from app.users.user_service import UserService as user_service
 from fastapi import HTTPException, status, Depends
 from app.core.database.database import database
 from app.models.user import User
-from app.user_roles.user_role_service import RoleService as role_service
+from app.user_roles.user_role_service import UserRoleService as user_role_service
 
 OAuth2Scheme = OAuth2PasswordBearer("/auth/login")
 
@@ -32,7 +32,7 @@ class RoleChecker:
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="User not authenticated"
                 )
-            user_roles = role_service.get_role_names_for_user(user.user_id, db)
+            user_roles = user_role_service.get_role_names_for_user(user.user_id, db)
             for role in required_roles:
                 if role not in user_roles:
                     raise HTTPException(

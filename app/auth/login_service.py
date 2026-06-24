@@ -33,6 +33,6 @@ class LoginService:
         }
 
         return {
-            "token": JWTHelper.encode_token(payload=payload),
+            "access_token": JWTHelper.encode_token(payload=payload),
             "type": "bearer"
             }

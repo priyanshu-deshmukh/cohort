@@ -12,3 +12,11 @@ class UserSignup(BaseModel):
     email: EmailStr = Field(...)
     name: str = Field(...)
     password: str = Field(..., min_length=8, max_length=30)
+
+
+class GetUserResponse(BaseModel):
+    user_id: uuid.UUID
+    name: str
+    email: EmailStr
+    is_active: bool
+    is_deleted: bool

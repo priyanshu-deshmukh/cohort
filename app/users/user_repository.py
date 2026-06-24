@@ -3,6 +3,8 @@ from app.models.user import User
 from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException, status
 from sqlalchemy import select
+import uuid
+
 
 
 class UserRepository:
@@ -24,3 +26,7 @@ class UserRepository:
     @staticmethod
     def get_user_by_email(email: str, db: Session):
         return db.execute(select(User).where(User.email == email)).scalars().first()
+    
+    @staticmethod
+    def get_user_by_user_id(user_id: uuid.UUID, db: Session):
+        return db.execute(select(User).where(User.user_id == user_id)).scalars().first()

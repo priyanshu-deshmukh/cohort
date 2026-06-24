@@ -8,6 +8,11 @@ from alembic import context
 from app.core.database.database import Base
 from app.core.config.config import settings
 
+from app.models.course import Course
+from app.models.user import User
+from app.models.role import Role
+from app.models.user_role import UserRole
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

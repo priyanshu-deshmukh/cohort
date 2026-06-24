@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings
-
+import uuid
 
 class Settings(BaseSettings):
 
@@ -10,14 +10,19 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
 
 
+    SUPERADMIN_ID: uuid.UUID
     SUPERADMIN_EMAIL: str
     SUPERADMIN_PASSWORD: str
     SUPERADMIN_NAME: str
 
 
+    ROLES: list[str]
+    ROLE_IDS: list[uuid.UUID]
+
+
     @property
     def DB_URL(self):
-        return f"postgresql+asyncpg://{self.DB_USERNAME}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+        return f"postgresql+psycopg2://{self.DB_USERNAME}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
 
     model_config = {

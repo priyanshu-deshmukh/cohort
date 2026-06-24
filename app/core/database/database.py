@@ -17,11 +17,6 @@ class Database:
         db = session()
         try: 
             yield db
-        except Exception as e:
-            raise HTTPException(
-                status_code = status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"database error occured.\n\nMore details: {str(e)}"
-            )
         finally:
             db.close()
 

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.users.user_api import router as signup_router
-
+from app.auth.login_api import router as login_router
 
 
 
@@ -13,6 +13,7 @@ app = FastAPI(
     )
 
 app.include_router(signup_router)
+app.include_router(login_router)
 
 @app.get("/health")
 def get_health():

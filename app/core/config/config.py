@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     ROLES: list[str]
     ROLE_IDS: list[uuid.UUID]
 
+    SECRET_KEY: str
+    ALGORITHM: str
 
     @property
     def DB_URL(self):

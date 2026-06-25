@@ -14,7 +14,7 @@ router = APIRouter(prefix="/cohort", tags=["Cohorts"])
 def create_new_cohort(new_cohort: CohortCreate, db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["COHORT_ADMIN"]))):
     return cohort_service.create_new_cohort(new_cohort.cohort_name, new_cohort.cohort_description, user.user_id, db)
 
-@router.patch("/delete/{cohort_id}")
+@router.delete("/delete/{cohort_id}")
 def delete_cohort(cohort_id: uuid.UUID, db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["COHORT_ADMIN"]))):
     return cohort_service.delete_cohort(cohort_id, user, db)
 

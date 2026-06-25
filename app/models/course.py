@@ -13,5 +13,5 @@ class Course(Base):
     course_description = Column(Text, nullable=False)
     created_by = Column(UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False)
     created_at = Column(DateTime, default=func.now())
-    is_active = Column(Boolean, default=True)
-    is_deleted = Column(Boolean, default=False)
+    is_active = Column(Boolean, default=False, nullable=False)
+    is_deleted = Column(Boolean, default=False, nullable=False)

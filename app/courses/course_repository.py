@@ -37,3 +37,9 @@ class CourseRepository:
                 "message": "Course Deleted Successfully"
             }
         )
+    
+    @staticmethod
+    def activate_course(course: Course, db: Session):
+        course.is_active = True
+        db.commit()
+        db.refresh(course)

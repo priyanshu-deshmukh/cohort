@@ -12,7 +12,7 @@ from app.models.course import Course
 from app.models.user import User
 from app.models.role import Role
 from app.models.user_role import UserRole
-
+from app.models.cohort import Cohort
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

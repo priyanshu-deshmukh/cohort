@@ -33,11 +33,11 @@ class RoleChecker:
                     detail="User not authenticated"
                 )
             user_roles = user_role_service.get_role_names_for_user(user.user_id, db)
-            for role in required_roles:
-                if role not in user_roles:
-                    raise HTTPException(
+            for role in user_roles:
+                if role in required_roles:        
+                    return user
+                raise HTTPException(
                         status_code=status.HTTP_403_FORBIDDEN,
-                        detail="Access Denied"
+                        detail=f"Access Denied."
                     )
-            return user
         return inner

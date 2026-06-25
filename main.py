@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from app.users.user_api import router as signup_router
 from app.auth.login_api import router as login_router
 from app.courses.courses_api import router as course_router
-
+from app.cohort.cohort_api import router as cohort_router
 
 
 
@@ -14,6 +14,7 @@ app = FastAPI(
 
 app.include_router(signup_router)
 app.include_router(login_router)
+app.include_router(cohort_router)
 app.include_router(course_router)
 
 

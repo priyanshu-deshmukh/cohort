@@ -8,6 +8,7 @@ class Course(Base):
     __tablename__ = "courses"
 
     course_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4())
+    cohort_id = Column(UUID(as_uuid=True), ForeignKey("cohorts.cohort_id"), nullable=False)
     course_title = Column(String, nullable=False)
     course_description = Column(Text, nullable=False)
     created_by = Column(UUID(as_uuid=True), ForeignKey("users.user_id"), nullable=False)

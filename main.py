@@ -3,7 +3,7 @@ from app.users.user_api import router as signup_router
 from app.auth.login_api import router as login_router
 from app.courses.courses_api import router as course_router
 from app.cohort.cohort_api import router as cohort_router
-
+from app.course_onboarding.course_onboarding_api import router as onboarding_router
 
 
 
@@ -16,6 +16,7 @@ app.include_router(signup_router)
 app.include_router(login_router)
 app.include_router(cohort_router)
 app.include_router(course_router)
+app.include_router(onboarding_router)
 
 
 @app.get("/health")

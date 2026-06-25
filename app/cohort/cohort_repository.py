@@ -26,6 +26,7 @@ class CohortRepository:
     def delete_cohort(cohort: Cohort, db: Session):
         cohort.is_deleted = True
         db.commit()
+        db.refresh(cohort)
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             detail="Cohort Deleted successfully"

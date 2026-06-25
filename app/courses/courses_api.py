@@ -17,4 +17,4 @@ def create_new_course(new_course: CourseCreate, db: Session = Depends(database.g
 
 @router.delete("/delete/{course_id}")
 def delete_course(course_id: uuid.UUID, db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["COHORT_ADMIN"]))):
-    return course_service.delete_course(course_id, db)
+    return course_service.delete_course(course_id, user, db)

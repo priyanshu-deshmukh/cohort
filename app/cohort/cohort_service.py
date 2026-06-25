@@ -52,10 +52,10 @@ class CohortService:
     
 
     @staticmethod
-    def get_all_active_cohorts(user: User, db: Session):
-        user_role = user_role_service.get_role_names_for_user(user.user_id, db)
+    def get_all_active_cohorts(user_id: uuid.UUID, db: Session):
+        user_role = user_role_service.get_role_names_for_user(user_id, db)
         if "COHORT_ADMIN" in user_role:
-            return cohort_repository.get_cohort_by_admin_id(user.user_id, db)
+            return cohort_repository.get_cohort_by_admin_id(user_id, db)
         cohorts = cohort_repository.get_all_active_cohorts(db)
         return cohorts
     

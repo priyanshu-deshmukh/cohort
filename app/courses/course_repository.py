@@ -3,6 +3,9 @@ from app.models.course import Course
 from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select
+import uuid
+from fastapi.responses import JSONResponse
+
 
 class CourseRepository:
 
@@ -18,3 +21,19 @@ class CourseRepository:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Database Error occured while creating new course.\n\nMore Detail: {e}"
            )
+
+    @staticmethod
+    def get_course_by_course_id(course_id: uuid.UUID, db: Session):
+        return db.execute(select(Course).where(Course.course_id == course_id)).scalars().first()
+    
+    @staticmethod
+    def delete_course(course: Course, db: Session):
+        course.is_deleted == True
+        db.commit()
+        db.refresh(course)
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={
+                "message": "Course Deleted Successfully"
+            }
+        )

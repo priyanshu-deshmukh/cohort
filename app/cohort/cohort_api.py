@@ -20,7 +20,7 @@ def delete_cohort(cohort_id: uuid.UUID, db: Session = Depends(database.get_db), 
 
 @router.get("/get_all")
 def get_all_cohort(db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["SUPERADMIN", "STUDENT", "COHORT_ADMIN"]))):
-    return cohort_service.get_all_active_cohorts(user, db)
+    return cohort_service.get_all_active_cohorts(user.user_id, db)
 
 @router.get("/{cohort_id}")
 def get_cohort_by_id(cohort_id: uuid.UUID, db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["SUPERADMIN", "COHORT_ADMIN", "STUDENT", "INSTRUCTOR"]))):

@@ -38,6 +38,6 @@ class RoleChecker:
                     return user
                 raise HTTPException(
                         status_code=status.HTTP_403_FORBIDDEN,
-                        detail=f"Access Denied."
+                        detail=f"Access Denied. You are {user.name} with roles {user_roles}"
                     )
         return inner

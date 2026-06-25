@@ -6,7 +6,7 @@ from app.assignments.assignment_repository import AssignmentRepository as assign
 from fastapi import HTTPException, status, UploadFile
 from app.utils.s3_storage_service.s3_service import S3_service
 from app.courses.course_repository import CourseRepository as course_repository
-
+import os
 
 class AssignmentService:
 
@@ -28,4 +28,5 @@ class AssignmentService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Something went wrong. more details: {e}"                        
         )
+        os.remove(file.filename)
         return assignment_repository.create_new_assignment(assignment_record, db)

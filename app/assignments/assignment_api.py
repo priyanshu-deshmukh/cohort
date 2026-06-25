@@ -15,9 +15,6 @@ router = APIRouter(prefix="/assignment", tags=["assignments"])
 
 @router.post("/create_new")
 async def create_new_assignment(title: str, description: str, deadline: datetime, points: int, file: UploadFile = File(...), user: User = Depends(RoleChecker.role_checker(["INSTRUCTOR"])), db: Session = Depends(database.get_db)):
-    
-    if not os.path.exists(settings.TEMP_LOCAL_PATH):
-        os.makedirs(settings.TEMP_LOCAL_PATH)
 
     with open(file.filename, "wb") as f:
             content = await file.read()

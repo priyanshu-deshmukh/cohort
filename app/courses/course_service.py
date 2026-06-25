@@ -5,6 +5,9 @@ from app.courses.course_repository import CourseRepository as course_repository
 from app.models.user import User
 from app.cohort.cohort_service import CohortService as cohort_service
 from fastapi import HTTPException, status
+from app.user_roles.user_role_service import UserRoleService as user_role_service
+
+
 
 class CourseService:
     
@@ -44,3 +47,31 @@ class CourseService:
             )
         
         return course_repository.delete_course(existing_course, db)
+    
+
+    @staticmethod
+    def get_all_courses(db: Session, user: User):
+
+        user_role = user_role_service.get_role_names_for_user(user.user_id, db)
+        
+        if user_role[0] == "COHORT_ADMIN":
+            courses = course_repository.get_courses_for_my_cohort(user.user_id, db)
+        
+        elif user_role[0] == "INSTRUCTOR":
+            courses = course_repository.get_courses_for_instructor(user.user_id, db)
+        
+        elif user_role[0] == "STUDENT":
+            courses = course_repository.get_courses_for_student(user.user_id, db)
+        
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Something went wrong"
+            )
+        
+        return courses
+    
+
+    @staticmethod
+    def get_all_available_courses(db: Session):
+        return course_repository.get_all_available_courses(db)

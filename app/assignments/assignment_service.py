@@ -36,8 +36,19 @@ class AssignmentService:
         course_students_ids = course_onboarding_service.get_onboarded_students_email_for_course(_course.course_id, db)
 
         user_emails = UserService.get_user_email_by_user_id(course_students_ids, db)
+        email_body = f"""
+                New Assignment created for your course {_course.course_title}!
 
+                Details:
+
+                    Title: {new_assignment.title}
+                    Description: {new_assignment.description}
+                    Deadline: {new_assignment.deadline}
+
+
+                Please ensure prompt submission.
+            """
         for email in user_emails:
-            EmailService.send_email(email, "New Assignment Created", body=f"New Assignment Created for course {_course.course_title}")
+            EmailService.send_email(email, "New Assignment Created", body=email_body)
         
         return new_assignment

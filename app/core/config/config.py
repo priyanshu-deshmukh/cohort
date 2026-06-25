@@ -22,6 +22,15 @@ class Settings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str
 
+
+    AWS_ACCESS_KEY_ID: str
+    AWS_SECRET_ACCESS_KEY: str
+    AWS_PRESIGNED_URL_EXP: int
+    REGION: str
+    BUCKET_NAME: str
+
+    TEMP_LOCAL_PATH: str
+
     @property
     def DB_URL(self):
         return f"postgresql+psycopg2://{self.DB_USERNAME}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"

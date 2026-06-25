@@ -18,3 +18,11 @@ def create_new_course(new_course: CourseCreate, db: Session = Depends(database.g
 @router.delete("/delete/{course_id}")
 def delete_course(course_id: uuid.UUID, db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["COHORT_ADMIN"]))):
     return course_service.delete_course(course_id, user, db)
+
+@router.get("/all")
+def get_all_available_courses(db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["STUDENT"]))):
+    return course_service.get_all_available_courses(db)
+
+@router.get("/all_my")
+def get_all_my_courses(db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["INSTRUCTOR", "STUDENT", "COHORT_ADMIN"]))):
+    return course_service.get_all_courses(db, user)

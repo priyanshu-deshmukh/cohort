@@ -31,6 +31,8 @@ class Settings(BaseSettings):
 
     TEMP_LOCAL_PATH: str
 
+    SES_SENDER_MAIL: str
+
     @property
     def DB_URL(self):
         return f"postgresql+psycopg2://{self.DB_USERNAME}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"

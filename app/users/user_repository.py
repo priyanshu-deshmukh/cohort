@@ -30,3 +30,7 @@ class UserRepository:
     @staticmethod
     def get_user_by_user_id(user_id: uuid.UUID, db: Session):
         return db.execute(select(User).where(User.user_id == user_id)).scalars().first()
+    
+    @staticmethod
+    def get_user_email_by_user_id(user_ids: list[uuid.UUID], db: Session):
+        return db.execute(select(User.email).where(User.user_id.in_(user_ids))).scalars().all()

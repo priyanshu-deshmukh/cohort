@@ -5,6 +5,9 @@ from app.utils.jwt_helper.jwt_helper import JWTHelper
 from app.utils.passwords.password_helper import PasswordHelper
 from fastapi.responses import JSONResponse
 from app.user_roles.user_role_service import UserRoleService as user_role_service
+from app.models.user import User
+
+
 
 class LoginService:
 
@@ -36,3 +39,16 @@ class LoginService:
             "access_token": JWTHelper.encode_token(payload=payload),
             "type": "bearer"
             }
+    
+    @staticmethod
+    def me(user: User):
+        user = {
+            "user_id": str(user.user_id),
+            "email": user.email,
+            "name": user.name,
+            "created_at": str(user.created_at)
+        }
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content = user
+        )

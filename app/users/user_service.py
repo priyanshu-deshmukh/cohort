@@ -58,3 +58,7 @@ class UserService:
                 detail="User Not Found"
             )
         return user
+    
+    @staticmethod
+    def get_user_email_by_user_id(user_ids: list[uuid.UUID], db: Session):
+        return user_repository.get_user_email_by_user_id(user_ids, db)

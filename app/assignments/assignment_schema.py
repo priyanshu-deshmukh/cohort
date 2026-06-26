@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from datetime import datetime
-
+import uuid
 
 class AssignmentCreate(BaseModel):
     assignment_title: str = Field(...)

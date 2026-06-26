@@ -111,3 +111,7 @@ class CourseOnboardingService:
     def get_onboarded_students_email_for_course(course_id: uuid.UUID, db: Session):
         onboardings = course_onboarding_repository.get_all_onboardings_for_course(course_id, db)
         return [onboarding.user_id for onboarding in onboardings]
+    
+    @staticmethod
+    def get_onboardings_for_course(course_id: uuid.UUID, db: Session):
+        return course_onboarding_repository.get_all_onboardings_for_course(course_id, db)

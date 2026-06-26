@@ -5,7 +5,7 @@ from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
 import uuid
-
+from app.models.user import User
 
 class CourseOnboardingRepository:
 
@@ -39,3 +39,26 @@ class CourseOnboardingRepository:
         return onboardings
     
 
+    @staticmethod
+    def get_students_for_course(course_id: uuid.UUID, db: Session):
+        
+        onboardings = db.execute(select(Onboarding).where(Onboarding.course_id==course_id, Onboarding.onboarded_as == "STUDENT")).scalars().all()
+        
+        ids = [onboarding.user_id for onboarding in onboardings]
+
+        raw_users = db.execute(select(User).where(User.user_id.in_(ids))).scalars().all()
+        
+        users = []
+        for user in raw_users:
+            i=0
+            users.append(
+                {
+                    "user_id": user.user_id,
+                    "email": user.email,
+                    "cohort_id": onboardings[i].cohort_id,
+                    "course_id": onboardings[i].course_id,
+                    "joined_at": onboardings[i].onboarded_at,
+                }
+            )
+            i+=1
+        return users

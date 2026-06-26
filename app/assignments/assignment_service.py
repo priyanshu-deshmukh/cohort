@@ -12,6 +12,8 @@ from app.utils.ses_email_service.email_service import EmailService
 import uuid
 from app.models.submissions import Submission
 from fastapi.responses import JSONResponse
+from app.models.scores import Score
+
 
 class AssignmentService:
 
@@ -121,3 +123,40 @@ class AssignmentService:
                 detail="You have not enrolled onto this course."
             )
         return assignment_repository.get_all_my_submissions_for_course(course_id, user_id, db)
+    
+
+    @staticmethod
+    def grade_assignment(assignment_id: uuid.UUID,  submission_id: uuid.UUID, score: int, remarks: str, user_id: uuid.UUID, db: Session):
+        assignment = assignment_repository.get_assignment_by_id(assignment_id, db)
+        if not assignment:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Assignment not found"
+            )
+        if assignment.created_by != user_id:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Assignment not found"
+            )
+        submission = assignment_repository.get_submission_by_id(submission_id, db)
+        
+        if (submission == None) or (submission.assignment_id != assignment_id):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Submission not found"
+            )
+        
+        grade_record = Score(
+            user_id = submission.user_id,
+            assignment_id=assignment_id,
+            submission_id = submission_id,
+            score=score,
+            remarks=remarks
+        )
+
+        return assignment_repository.create_grade_record(grade_record, db)
+        
+
+    @staticmethod
+    def get_all_my_grades_for_course(course_id: uuid.UUID, user_id: uuid.UUID, db: Session):
+        return assignment_repository.get_all_my_grades_for_course(course_id, user_id, db)

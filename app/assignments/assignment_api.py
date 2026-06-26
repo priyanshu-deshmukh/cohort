@@ -42,6 +42,11 @@ def get_all_submissions(assignment_id: uuid.UUID, user: User = Depends(RoleCheck
 def get_all_my_submissions_for_course(course_id: uuid.UUID, db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["STUDENT"]))):
      return assignment_service.get_all_my_submissions_for_course(course_id, user.user_id, db)
 
-@router.post("grade_assignment/{submission_id}")
+@router.post("/grade_assignment/{submission_id}")
 def grade_assignment(assignment_id: uuid.UUID, submission_id: uuid.UUID, score: int, remarks: str, user: User = Depends(RoleChecker.role_checker(["INSTRUCTOR"])), db: Session = Depends(database.get_db)):
-     return assignment_service.grade_assignment(assignment_id)
+     return assignment_service.grade_assignment(assignment_id, submission_id, score, remarks, user.user_id, db)
+
+
+@router.get("/view_all_scores/{course_id}")
+def get_all_my_grades_for_course(course_id: uuid.UUID, user: User = Depends(RoleChecker.role_checker(["STUDENT"])), db: Session = Depends(database.get_db)):
+    return assignment_service.get_all_my_grades_for_course(course_id, user.user_id, db)

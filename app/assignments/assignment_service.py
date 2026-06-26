@@ -157,7 +157,7 @@ class AssignmentService:
         return assignment_repository.create_grade_record(grade_record, db)
         
     @staticmethod
-    @tool
+    # @tool
     def get_all_my_grades_for_course(course_id: uuid.UUID, user_id: uuid.UUID, db: Session) -> list:
         """
         Look up all submissions and returns a list of dict containing assignment_id, submission_id, score,scored_at, remarks.

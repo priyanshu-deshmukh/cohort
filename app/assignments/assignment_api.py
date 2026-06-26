@@ -8,7 +8,7 @@ from datetime import datetime
 import os
 from app.core.config.config import settings
 import uuid
-from app.utils.agent.agent_service import agent
+# from app.utils.agent.agent_service import agent
 
 
 router = APIRouter(prefix="/assignment", tags=["assignments"])
@@ -53,7 +53,8 @@ def grade_assignment(assignment_id: uuid.UUID, submission_id: uuid.UUID, score: 
 def get_all_my_grades_for_course(course_id: uuid.UUID, user: User = Depends(RoleChecker.role_checker(["STUDENT"])), db: Session = Depends(database.get_db)):
     return assignment_service.get_all_my_grades_for_course(course_id, user.user_id, db)
 
-@router.post("/ask_query")
-def ai_agent(query: str):
-    result = agent.invoke({"messages": [{"role": "user", "content": query}]})
-    return result
+#TODO: Complete this endpoint
+# @router.post("/ask_query")
+# def ai_agent(query: str):
+#     result = agent.invoke({"messages": [{"role": "user", "content": query}]})
+#     return result

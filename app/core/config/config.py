@@ -33,6 +33,8 @@ class Settings(BaseSettings):
 
     SES_SENDER_MAIL: str
 
+    GEMINI_API_KEY: str
+
     @property
     def DB_URL(self):
         return f"postgresql+psycopg2://{self.DB_USERNAME}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"

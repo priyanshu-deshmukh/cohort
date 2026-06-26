@@ -104,7 +104,7 @@ class AssignmentRepository:
         submissions = AssignmentRepository.get_all_my_submissions_for_course(course_id, user_id, db)
 
         scores = db.execute(select(Score).where(Score.submission_id.in_(submission_ids := [submission.submission_id for submission in submissions]))).scalars().all()
-        print(submission_ids)
+        print("1111", submission_ids)
         
         _scores = []
 
@@ -113,8 +113,8 @@ class AssignmentRepository:
             if submission.submission_id not in [score.submission_id for score in scores]:
                 _scores.append(
                     {
-                    "assignment_id": submission.assignment_id,
-                    "submission_id": submission.submission_id,
+                    "assignment_id": str(submission.assignment_id),
+                    "submission_id": str(submission.submission_id),
                     "score": "Not Graded Yet",
                     "scored_at": "Not Graded Yet",
                     "remarks": "Not Graded Yet"
@@ -124,10 +124,10 @@ class AssignmentRepository:
             else:
                 _scores.append(
                     {
-                    "assignment_id": submission.assignment_id,
-                    "submission_id": submission.submission_id,
+                    "assignment_id": str(submission.assignment_id),
+                    "submission_id": str(submission.submission_id),
                     "score": scores[i].score,
-                    "scored_at": scores[i].scored_at,
+                    "scored_at": str(scores[i].scored_at),
                     "remarks": scores[i].remarks
                 }
                 )

@@ -16,6 +16,8 @@ from app.models.cohort import Cohort
 from app.models.onboarding import Onboarding
 from app.models.assignment import Assignment
 from app.models.notifications import Notification
+from app.models.submissions import Submission
+from app.models.scores import Score
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

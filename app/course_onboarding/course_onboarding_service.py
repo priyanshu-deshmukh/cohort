@@ -7,7 +7,7 @@ from app.courses.course_repository import CourseRepository as course_repository
 from fastapi.responses import JSONResponse
 from app.models.user import User
 from app.courses.course_repository import CourseRepository as course_repository
-
+from app.user_roles.user_role_repository import UserRoleRepository
 
 
 class CourseOnboardingService:
@@ -115,3 +115,23 @@ class CourseOnboardingService:
     @staticmethod
     def get_onboardings_for_course(course_id: uuid.UUID, db: Session):
         return course_onboarding_repository.get_all_onboardings_for_course(course_id, db)
+    
+    @staticmethod
+    def get_students_for_course(course_id: uuid.UUID, user_id: uuid.UUID, db: Session):
+        course = course_repository.get_course_by_course_id(course_id, db)
+        if not course:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Course not found"
+            )
+        # if user is instructor, they still get to see students of all other courses too for now. will write the logic later to fix this
+
+        role = UserRoleRepository.get_role_names_by_id([UserRoleRepository.get_roles_for_user(user_id, db)[0].role_id], db)[0]
+        if role == "INSTRUCTOR":
+            return course_onboarding_repository.get_students_for_course(course_id, db)
+        if course.created_by != user_id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Course not found"
+            )
+        return course_onboarding_repository.get_students_for_course(course_id, db)

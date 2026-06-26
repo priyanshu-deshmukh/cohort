@@ -6,7 +6,7 @@ from app.models.user import User
 from app.utils.role_checker.role_checker import RoleChecker
 from app.courses.course_service import CourseService as course_service
 import uuid 
-
+from app.course_onboarding.course_onboarding_service import CourseOnboardingService as course_onboarding_service
 
 router = APIRouter(prefix="/course", tags=["courses"])
 
@@ -26,3 +26,10 @@ def get_all_available_courses(db: Session = Depends(database.get_db), user: User
 @router.get("/all_my")
 def get_all_my_courses(db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["INSTRUCTOR", "STUDENT", "COHORT_ADMIN"]))):
     return course_service.get_all_courses(db, user)
+
+@router.get("/get_all_students/{course_id}")
+def get_all_enrolled_students(course_id: uuid.UUID, db: Session = Depends(database.get_db), user: User = Depends(RoleChecker.role_checker(["COHORT_ADMIN", "INSTRUCTOR"]))):
+    return course_onboarding_service.get_students_for_course(course_id, user.user_id, db)
+
+
+# @router.get("/get_all_students/{cohort_id}")
